@@ -144,11 +144,11 @@ function Hero({ scrollY }) {
         </h1>
         <p style={{
           fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: "#555", lineHeight: 1.75,
-          marginBottom: "48px", maxWidth: "520px", margin: "0 auto 48px",
+          marginBottom: "48px", maxWidth: "560px", margin: "0 auto 48px",
           opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(18px)",
           transition: "all 1s cubic-bezier(0.16,1,0.3,1) 0.45s",
         }}>
-          Your strategic partner in PR and Digital Marketing Excellence.
+          專注公關策略、媒體關係及數碼營銷，為品牌打造真實影響力與媒體聲量。
         </p>
         <div style={{
           display: "flex", gap: "16px", justifyContent: "center",
@@ -186,6 +186,31 @@ function Hero({ scrollY }) {
           >
             Get in Touch
           </MagneticBtn>
+        </div>
+
+        {/* Stats row */}
+        <div style={{
+          display: "flex", gap: "48px", justifyContent: "center", marginTop: "56px",
+          opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(16px)",
+          transition: "all 1s cubic-bezier(0.16,1,0.3,1) 0.75s",
+        }}>
+          {[
+            { num: "50+", label: "服務品牌" },
+            { num: "HK$500萬+", label: "創造媒體價值" },
+            { num: "200+", label: "KOL合作" },
+          ].map(({ num, label }) => (
+            <div key={label} style={{ textAlign: "center" }}>
+              <div style={{
+                fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
+                fontSize: "clamp(1.6rem, 3vw, 2.2rem)", color: CHARCOAL,
+                letterSpacing: "-0.01em", lineHeight: 1,
+              }}>{num}</div>
+              <div style={{
+                fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem",
+                letterSpacing: "0.12em", color: "#888", marginTop: "6px",
+              }}>{label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -260,30 +285,30 @@ function About() {
               opacity: inView ? 1 : 0, transform: inView ? "none" : "translateY(24px)",
               transition: "all 0.9s cubic-bezier(0.16,1,0.3,1) 0.1s",
             }}>
-              Where Stories Shape<br /><em>Brand Reputation.</em>
+              策略公關，<br /><em>為品牌發聲。</em>
             </h2>
             <p style={{
               fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: "#666",
               lineHeight: 1.8, marginBottom: "24px",
               opacity: inView ? 1 : 0, transition: "opacity 0.9s ease 0.25s",
             }}>
-              We bridge the gap between brands and media through professional PR, strategic storytelling and data-driven digital marketing — from media relations and event management to KOL campaigns, content creation and all-media marketing across Hong Kong, Mainland China and Southeast Asia.
+              我們深諳媒體生態，透過精準的公關策略、新聞稿撰寫、媒體邀請及記者關係，為品牌建立真實可信的媒體聲量。無論是新產品發布、企業形象管理，還是危機公關，Totoro Studio 均能為您提供全方位的策略支援。
             </p>
             <p style={{
               fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: "#666",
               lineHeight: 1.8,
               opacity: inView ? 1 : 0, transition: "opacity 0.9s ease 0.35s",
             }}>
-              Totoro Studio works with governments, foundations, F&B brands, lifestyle labels and NGOs — ensuring every narrative carries both cultural resonance and measurable media impact.
+              配合社交媒體管理、KOL合作及內地全媒體營銷，我們打通線上線下傳播渠道，讓品牌故事觸達最精準的受眾。
             </p>
           </div>
 
           {/* Right col — service cards */}
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             {[
-              { Icon: IconPR, title: "Public Relations & Events", desc: "媒體關係、新聞稿、記者統籌及活動管理，創造真實報道及可量化媒體價值。" },
-              { Icon: IconSocial, title: "Social Media & KOL Strategy", desc: "跨平台社媒內容、社群管理、KOL/KOC合作及付費廣告，覆蓋IG、FB、小紅書、微博、抖音等。" },
-              { Icon: IconMedia, title: "Mainland China Full-Channel Marketing", desc: "整合小紅書、微信、抖音、微博等平台，制定品效合一的全域方案，配合KOL管理及數據分析優化投放。" },
+              { Icon: IconPR, title: "公關及媒體關係", desc: "新聞稿撰寫、媒體邀請、記者關係管理及品牌聲量建立" },
+              { Icon: IconSocial, title: "社交媒體及廣告", desc: "跨平台內容策劃、廣告投放及社群管理，覆蓋IG、FB及小紅書" },
+              { Icon: IconMedia, title: "KOL及內容營銷", desc: "KOL/KOC合作、內容創作及內地全媒體整合營銷方案" },
             ].map(({ Icon, title, desc }, i) => (
               <div key={title} style={{
                 padding: "28px 28px 24px",
@@ -298,6 +323,96 @@ function About() {
                 <div style={{ marginBottom: "12px" }}><Icon /></div>
                 <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1.2rem", color: CHARCOAL, margin: "0 0 8px" }}>{title}</h3>
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", color: "#777", lineHeight: 1.65, margin: 0 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── PR Process ─── */
+function PRProcess() {
+  const [ref, inView] = useInView(0.1);
+  const steps = [
+    { num: "01", title: "深度品牌研究", desc: "了解品牌定位、目標受眾及媒體環境" },
+    { num: "02", title: "制定公關策略", desc: "撰寫新聞基調、媒體名單及傳播計劃" },
+    { num: "03", title: "執行與媒體推廣", desc: "發送新聞稿、安排媒體邀請及跟進報道" },
+    { num: "04", title: "數據分析與報告", desc: "統計媒體曝光、評估成效並優化策略" },
+  ];
+
+  return (
+    <section ref={ref} style={{
+      padding: "100px 48px",
+      background: WHITE,
+      borderTop: `1px solid ${BRAND}44`,
+    }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+        <p style={{
+          fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem", letterSpacing: "0.28em",
+          textTransform: "uppercase", color: BRAND, marginBottom: "16px",
+          opacity: inView ? 1 : 0, transition: "opacity 0.7s ease",
+        }}>The Process</p>
+        <h2 style={{
+          fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
+          fontSize: "clamp(1.8rem, 3vw, 2.6rem)", color: CHARCOAL,
+          margin: "0 0 64px", lineHeight: 1.15,
+          opacity: inView ? 1 : 0, transform: inView ? "none" : "translateY(20px)",
+          transition: "all 0.9s cubic-bezier(0.16,1,0.3,1) 0.1s",
+        }}>
+          公關執行流程
+        </h2>
+
+        {/* Timeline */}
+        <div style={{ position: "relative" }}>
+          {/* Connector line */}
+          <div style={{
+            position: "absolute",
+            top: "28px",
+            left: "calc(12.5% - 1px)",
+            right: "calc(12.5% - 1px)",
+            height: "2px",
+            background: `${BRAND}55`,
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+          }} />
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "32px",
+            position: "relative",
+          }}>
+            {steps.map(({ num, title, desc }, i) => (
+              <div key={num} style={{
+                textAlign: "center",
+                opacity: inView ? 1 : 0,
+                transform: inView ? "none" : "translateY(28px)",
+                transition: `all 0.8s cubic-bezier(0.16,1,0.3,1) ${0.15 + i * 0.12}s`,
+              }}>
+                {/* Step circle */}
+                <div style={{
+                  width: "56px", height: "56px", borderRadius: "50%",
+                  background: WHITE, border: `2px solid ${BRAND}`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  margin: "0 auto 24px",
+                  fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
+                  fontSize: "1rem", color: CHARCOAL,
+                  position: "relative", zIndex: 1,
+                  boxShadow: `0 0 0 6px ${WHITE}`,
+                }}>{num}</div>
+
+                <h3 style={{
+                  fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
+                  fontSize: "1.15rem", color: CHARCOAL,
+                  margin: "0 0 12px", lineHeight: 1.25,
+                }}>{title}</h3>
+
+                <p style={{
+                  fontFamily: "'DM Sans', sans-serif", fontSize: "0.88rem",
+                  color: "#777", lineHeight: 1.65, margin: 0,
+                }}>{desc}</p>
               </div>
             ))}
           </div>
@@ -900,6 +1015,7 @@ export default function TotoroStudio() {
       <Nav scrollY={scrollY} />
       <Hero scrollY={scrollY} />
       <About />
+      <PRProcess />
       <Portfolio />
       <Contact />
     </div>
