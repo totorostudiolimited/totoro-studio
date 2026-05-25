@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 
-const BRAND = "#ced0c9";
+const BRAND   = "#ced0c9";
+const GOLD    = "#C4956A";
 const CHARCOAL = "#1A1A1A";
-const WHITE = "#FFFFFF";
+const WHITE   = "#FFFFFF";
+const WARM_BG = "#F7F5F2";
 
 /* ─── Scroll hook ─── */
 function useScrollY() {
@@ -63,24 +65,25 @@ function Nav({ scrollY }) {
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
       padding: scrolled ? "14px 48px" : "24px 48px",
       display: "flex", alignItems: "center", justifyContent: "space-between",
-      background: scrolled ? "rgba(255,255,255,0.85)" : "transparent",
+      background: scrolled ? "rgba(255,255,255,0.95)" : "transparent",
       backdropFilter: scrolled ? "blur(18px)" : "none",
-      borderBottom: scrolled ? `1px solid ${BRAND}55` : "none",
+      borderBottom: scrolled ? `1px solid ${GOLD}44` : "none",
       transition: "all 0.45s ease",
     }}>
-      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "1.35rem", letterSpacing: "0.04em", color: CHARCOAL }}>
-        TOTORO<span style={{ color: BRAND, fontStyle: "italic" }}>.</span>
+      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700, fontSize: "1.35rem", letterSpacing: "0.04em", color: scrolled ? CHARCOAL : WHITE, transition: "color 0.45s ease" }}>
+        TOTORO<span style={{ color: GOLD, fontStyle: "italic" }}>.</span>
       </div>
       <div style={{ display: "flex", gap: "36px" }}>
         {["About", "Work", "Contact"].map(link => (
           <a key={link} href={`#${link.toLowerCase()}`} style={{
             fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem",
             letterSpacing: "0.12em", textTransform: "uppercase",
-            color: CHARCOAL, textDecoration: "none", opacity: 0.7,
-            transition: "opacity 0.2s",
+            color: scrolled ? CHARCOAL : WHITE, textDecoration: "none", opacity: 0.8,
+            borderBottom: "1px solid transparent", paddingBottom: "2px",
+            transition: "opacity 0.2s, border-color 0.2s, color 0.2s",
           }}
-            onMouseEnter={e => e.target.style.opacity = 1}
-            onMouseLeave={e => e.target.style.opacity = 0.7}
+            onMouseEnter={e => { e.target.style.opacity = 1; e.target.style.borderBottomColor = GOLD; }}
+            onMouseLeave={e => { e.target.style.opacity = 0.8; e.target.style.borderBottomColor = "transparent"; }}
           >{link}</a>
         ))}
       </div>
@@ -93,39 +96,54 @@ function Hero({ scrollY }) {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => { setTimeout(() => setLoaded(true), 80); }, []);
 
-  const parallaxY = scrollY * 0.38;
+  const parallaxY = scrollY * 0.30;
+
+  const HERO_IMGS = [
+    "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1400&q=80",
+    "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1400&q=80",
+  ];
 
   return (
     <section style={{
-      minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
+      height: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
       position: "relative", overflow: "hidden",
-      background: WHITE,
     }}>
-      {/* Parallax background orb */}
+      {/* Background image grid (two images side-by-side) */}
       <div style={{
-        position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
-        transform: `translateY(${parallaxY}px)`,
+        position: "absolute", inset: 0,
+        display: "grid", gridTemplateColumns: "1fr 1fr",
+        transform: `translateY(${parallaxY}px) scale(1.12)`,
         transition: "transform 0.05s linear",
         pointerEvents: "none",
       }}>
-        <div style={{
-          width: "680px", height: "680px", borderRadius: "50%",
-          background: `radial-gradient(ellipse at 40% 40%, ${BRAND}cc 0%, ${BRAND}55 45%, transparent 70%)`,
-          filter: "blur(2px)",
-          opacity: 0.65,
-        }} />
+        {HERO_IMGS.map((src, i) => (
+          <div key={i} style={{
+            backgroundImage: `url(${src})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }} />
+        ))}
       </div>
 
-      {/* Decorative lines */}
-      <div style={{ position: "absolute", top: "18%", left: "7%", width: "180px", height: "1px", background: `${BRAND}99` }} />
-      <div style={{ position: "absolute", bottom: "22%", right: "8%", width: "120px", height: "1px", background: `${BRAND}99` }} />
-      <div style={{ position: "absolute", top: "28%", right: "10%", width: "1px", height: "100px", background: `${BRAND}77` }} />
+      {/* Dark overlay */}
+      <div style={{
+        position: "absolute", inset: 0,
+        background: "rgba(0,0,0,0.55)",
+        pointerEvents: "none",
+      }} />
+
+      {/* Thin gold horizontal rule for depth */}
+      <div style={{
+        position: "absolute", bottom: "96px", left: "50%", transform: "translateX(-50%)",
+        width: "1px", height: "60px", background: `linear-gradient(to bottom, transparent, ${GOLD}88)`,
+        pointerEvents: "none",
+      }} />
 
       {/* Content */}
-      <div style={{ textAlign: "center", zIndex: 2, padding: "0 24px", maxWidth: "780px" }}>
+      <div style={{ textAlign: "center", zIndex: 2, padding: "0 24px", maxWidth: "820px" }}>
         <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", letterSpacing: "0.28em",
-          textTransform: "uppercase", color: BRAND, marginBottom: "28px",
+          fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", letterSpacing: "0.32em",
+          textTransform: "uppercase", color: GOLD, marginBottom: "28px",
           opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(14px)",
           transition: "all 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s",
         }}>
@@ -133,50 +151,52 @@ function Hero({ scrollY }) {
         </p>
         <h1 style={{
           fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
-          fontSize: "clamp(2.8rem, 6vw, 5.2rem)", lineHeight: 1.08,
-          color: CHARCOAL, margin: "0 0 28px",
+          fontSize: "clamp(2.8rem, 6vw, 5.4rem)", lineHeight: 1.08,
+          color: WHITE, margin: "0 0 28px",
           opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(24px)",
           transition: "all 1s cubic-bezier(0.16,1,0.3,1) 0.25s",
           letterSpacing: "-0.01em",
+          textShadow: "0 2px 24px rgba(0,0,0,0.4)",
         }}>
           Shaping Narratives,<br />
-          <em style={{ fontStyle: "italic", color: "#5a5c57" }}>Driving Influence.</em>
+          <em style={{ fontStyle: "italic", color: GOLD }}>Driving Influence.</em>
         </h1>
         <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: "#555", lineHeight: 1.75,
-          marginBottom: "48px", maxWidth: "560px", margin: "0 auto 48px",
+          fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: "rgba(255,255,255,0.8)", lineHeight: 1.8,
+          maxWidth: "560px", margin: "0 auto 48px",
           opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(18px)",
           transition: "all 1s cubic-bezier(0.16,1,0.3,1) 0.45s",
         }}>
           專注公關策略、媒體關係及數碼營銷，為品牌打造真實影響力與媒體聲量。
         </p>
         <div style={{
-          display: "flex", gap: "16px", justifyContent: "center",
+          display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap",
           opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(16px)",
           transition: "all 1s cubic-bezier(0.16,1,0.3,1) 0.6s",
         }}>
           <MagneticBtn
             className="btn-primary"
-            style={{}}
             onClick={() => document.getElementById("work")?.scrollIntoView({ behavior: "smooth" })}
           >
             <style>{`
               .btn-primary {
-                background: ${CHARCOAL}; color: ${WHITE};
+                background: ${GOLD}; color: ${WHITE};
                 border: none; padding: 16px 38px;
                 font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
                 letter-spacing: 0.15em; text-transform: uppercase;
                 cursor: pointer; border-radius: 2px;
+                transition: background 0.25s ease, box-shadow 0.25s ease;
               }
-              .btn-primary:hover { background: #333; }
+              .btn-primary:hover { background: #b8845a; box-shadow: 0 0 32px ${GOLD}66; }
               .btn-outline {
-                background: transparent; color: ${CHARCOAL};
-                border: 1px solid ${BRAND}; padding: 16px 38px;
+                background: transparent; color: ${WHITE};
+                border: 1px solid rgba(255,255,255,0.6); padding: 16px 38px;
                 font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
                 letter-spacing: 0.15em; text-transform: uppercase;
                 cursor: pointer; border-radius: 2px;
+                transition: border-color 0.25s ease, background 0.25s ease;
               }
-              .btn-outline:hover { background: ${BRAND}33; }
+              .btn-outline:hover { border-color: ${GOLD}; background: ${GOLD}22; }
             `}</style>
             View Our Work
           </MagneticBtn>
@@ -190,7 +210,7 @@ function Hero({ scrollY }) {
 
         {/* Stats row */}
         <div style={{
-          display: "flex", gap: "48px", justifyContent: "center", marginTop: "56px",
+          display: "flex", gap: "0", justifyContent: "center", marginTop: "64px",
           opacity: loaded ? 1 : 0, transform: loaded ? "translateY(0)" : "translateY(16px)",
           transition: "all 1s cubic-bezier(0.16,1,0.3,1) 0.75s",
         }}>
@@ -198,16 +218,21 @@ function Hero({ scrollY }) {
             { num: "50+", label: "服務品牌" },
             { num: "HK$500萬+", label: "創造媒體價值" },
             { num: "200+", label: "KOL合作" },
-          ].map(({ num, label }) => (
-            <div key={label} style={{ textAlign: "center" }}>
+          ].map(({ num, label }, i) => (
+            <div key={label} style={{
+              textAlign: "center",
+              padding: "0 36px",
+              borderLeft: i > 0 ? "1px solid rgba(255,255,255,0.2)" : "none",
+            }}>
               <div style={{
                 fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
-                fontSize: "clamp(1.6rem, 3vw, 2.2rem)", color: CHARCOAL,
+                fontSize: "clamp(1.7rem, 3vw, 2.3rem)", color: GOLD,
                 letterSpacing: "-0.01em", lineHeight: 1,
               }}>{num}</div>
               <div style={{
-                fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem",
-                letterSpacing: "0.12em", color: "#888", marginTop: "6px",
+                fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem",
+                letterSpacing: "0.14em", color: "rgba(255,255,255,0.6)", marginTop: "7px",
+                textTransform: "uppercase",
               }}>{label}</div>
             </div>
           ))}
@@ -218,10 +243,10 @@ function Hero({ scrollY }) {
       <div style={{
         position: "absolute", bottom: "36px", left: "50%", transform: "translateX(-50%)",
         display: "flex", flexDirection: "column", alignItems: "center", gap: "8px",
-        opacity: loaded ? 0.45 : 0, transition: "opacity 1s ease 1.2s",
+        opacity: loaded ? 0.6 : 0, transition: "opacity 1s ease 1.2s",
       }}>
-        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.7rem", letterSpacing: "0.2em", textTransform: "uppercase", color: CHARCOAL }}>Scroll</span>
-        <div style={{ width: "1px", height: "40px", background: `linear-gradient(to bottom, ${CHARCOAL}, transparent)`, animation: "scrollPulse 2s ease-in-out infinite" }} />
+        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.68rem", letterSpacing: "0.22em", textTransform: "uppercase", color: WHITE }}>Scroll</span>
+        <div style={{ width: "1px", height: "40px", background: `linear-gradient(to bottom, ${WHITE}, transparent)`, animation: "scrollPulse 2s ease-in-out infinite" }} />
       </div>
     </section>
   );
@@ -255,28 +280,35 @@ const IconMedia = () => (
 /* ─── About ─── */
 function About() {
   const [ref, inView] = useInView();
+
+  const COLLAGE = [
+    { src: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80", alt: "Modern workspace", tall: true },
+    { src: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80", alt: "Team meeting" },
+    { src: "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80", alt: "Creative agency" },
+  ];
+
   return (
     <section id="about" ref={ref} style={{
-      padding: "120px 48px", background: "#fafaf9",
-      borderTop: `1px solid ${BRAND}44`,
+      padding: "120px 48px", background: WARM_BG,
+      borderTop: `1px solid ${BRAND}33`,
     }}>
       <style>{`
         @keyframes scrollPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
         @keyframes fadeUp { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
         .fade-up { animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both; }
       `}</style>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1160px", margin: "0 auto" }}>
         {/* Label */}
         <p style={{
           fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem", letterSpacing: "0.28em",
-          textTransform: "uppercase", color: BRAND, marginBottom: "16px",
+          textTransform: "uppercase", color: GOLD, marginBottom: "16px",
           opacity: inView ? 1 : 0, transition: "opacity 0.7s ease",
         }}>
           The Expertise
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "80px", alignItems: "start" }}>
-          {/* Left col */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "72px", alignItems: "start" }}>
+          {/* Left col — text + service cards */}
           <div>
             <h2 style={{
               fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
@@ -285,7 +317,7 @@ function About() {
               opacity: inView ? 1 : 0, transform: inView ? "none" : "translateY(24px)",
               transition: "all 0.9s cubic-bezier(0.16,1,0.3,1) 0.1s",
             }}>
-              策略公關，<br /><em>為品牌發聲。</em>
+              策略公關，<br /><em style={{ color: GOLD }}>為品牌發聲。</em>
             </h2>
             <p style={{
               fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: "#666",
@@ -296,33 +328,69 @@ function About() {
             </p>
             <p style={{
               fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: "#666",
-              lineHeight: 1.8,
+              lineHeight: 1.8, marginBottom: "40px",
               opacity: inView ? 1 : 0, transition: "opacity 0.9s ease 0.35s",
             }}>
               配合社交媒體管理、KOL合作及內地全媒體營銷，我們打通線上線下傳播渠道，讓品牌故事觸達最精準的受眾。
             </p>
+
+            {/* Service cards */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              {[
+                { Icon: IconPR, title: "公關及媒體關係", desc: "新聞稿撰寫、媒體邀請、記者關係管理及品牌聲量建立" },
+                { Icon: IconSocial, title: "社交媒體及廣告", desc: "跨平台內容策劃、廣告投放及社群管理，覆蓋IG、FB及小紅書" },
+                { Icon: IconMedia, title: "KOL及內容營銷", desc: "KOL/KOC合作、內容創作及內地全媒體整合營銷方案" },
+              ].map(({ Icon, title, desc }, i) => (
+                <div key={title} style={{
+                  padding: "22px 24px",
+                  background: WHITE,
+                  border: `1px solid ${BRAND}44`,
+                  borderLeft: `3px solid ${GOLD}`,
+                  borderRadius: "8px",
+                  boxShadow: `0 2px 16px rgba(0,0,0,0.04)`,
+                  opacity: inView ? 1 : 0, transform: inView ? "none" : "translateY(20px)",
+                  transition: `all 0.8s cubic-bezier(0.16,1,0.3,1) ${0.35 + i * 0.12}s`,
+                  display: "flex", gap: "16px", alignItems: "flex-start",
+                }}>
+                  <div style={{ flexShrink: 0, marginTop: "2px" }}><Icon /></div>
+                  <div>
+                    <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1.15rem", color: CHARCOAL, margin: "0 0 5px" }}>{title}</h3>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.88rem", color: "#777", lineHeight: 1.6, margin: 0 }}>{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Right col — service cards */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            {[
-              { Icon: IconPR, title: "公關及媒體關係", desc: "新聞稿撰寫、媒體邀請、記者關係管理及品牌聲量建立" },
-              { Icon: IconSocial, title: "社交媒體及廣告", desc: "跨平台內容策劃、廣告投放及社群管理，覆蓋IG、FB及小紅書" },
-              { Icon: IconMedia, title: "KOL及內容營銷", desc: "KOL/KOC合作、內容創作及內地全媒體整合營銷方案" },
-            ].map(({ Icon, title, desc }, i) => (
-              <div key={title} style={{
-                padding: "28px 28px 24px",
-                background: `rgba(206,208,201,0.18)`,
-                border: `1px solid ${BRAND}55`,
+          {/* Right col — photo collage */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "1fr 1fr",
+            gap: "12px",
+            height: "540px",
+            opacity: inView ? 1 : 0, transform: inView ? "none" : "translateY(24px)",
+            transition: "all 1s cubic-bezier(0.16,1,0.3,1) 0.2s",
+          }}>
+            {/* First image: tall, spans 2 rows */}
+            <div style={{
+              gridRow: "span 2",
+              borderRadius: "12px",
+              overflow: "hidden",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+            }}>
+              <img src={COLLAGE[0].src} alt={COLLAGE[0].alt}
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
+            {/* Second & third image: normal cells */}
+            {COLLAGE.slice(1).map((img, i) => (
+              <div key={i} style={{
                 borderRadius: "12px",
-                backdropFilter: "blur(8px)",
-                boxShadow: `0 2px 24px ${BRAND}22`,
-                opacity: inView ? 1 : 0, transform: inView ? "none" : "translateY(20px)",
-                transition: `all 0.8s cubic-bezier(0.16,1,0.3,1) ${0.2 + i * 0.12}s`,
+                overflow: "hidden",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.10)",
               }}>
-                <div style={{ marginBottom: "12px" }}><Icon /></div>
-                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1.2rem", color: CHARCOAL, margin: "0 0 8px" }}>{title}</h3>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", color: "#777", lineHeight: 1.65, margin: 0 }}>{desc}</p>
+                <img src={img.src} alt={img.alt}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
             ))}
           </div>
@@ -456,13 +524,13 @@ function PortfolioCard({ project, delay, inView, onClick }) {
         position: "relative", overflow: "hidden",
         borderRadius: "18px",
         background: hovered
-          ? `rgba(206,208,201,0.55)`
-          : `rgba(206,208,201,0.28)`,
-        border: `1px solid ${BRAND}66`,
+          ? `rgba(206,208,201,0.45)`
+          : `rgba(247,245,242,0.85)`,
+        border: hovered ? `1px solid ${GOLD}66` : `1px solid ${BRAND}55`,
         backdropFilter: "blur(10px)",
         boxShadow: hovered
-          ? `0 20px 60px ${BRAND}55, 0 4px 20px rgba(0,0,0,0.07)`
-          : `0 4px 20px ${BRAND}33`,
+          ? `0 20px 60px ${GOLD}33, 0 4px 20px rgba(0,0,0,0.08)`
+          : `0 4px 20px rgba(0,0,0,0.04)`,
         transform: hovered ? "scale(1.02)" : "scale(1)",
         opacity: inView ? 1 : 0,
         transition: `transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease, background 0.4s ease, opacity 0.9s ease ${delay}s`,
@@ -517,10 +585,10 @@ function PortfolioCard({ project, delay, inView, onClick }) {
           <span style={{
             fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem",
             letterSpacing: "0.16em", textTransform: "uppercase",
-            color: CHARCOAL, borderBottom: `1px solid ${CHARCOAL}`,
+            color: GOLD, borderBottom: `1px solid ${GOLD}`,
             paddingBottom: "2px",
           }}>查看詳情</span>
-          <span style={{ fontSize: "0.85rem" }}>→</span>
+          <span style={{ fontSize: "0.85rem", color: GOLD }}>→</span>
         </div>
       </div>
     </div>
@@ -533,7 +601,7 @@ const FILTERS = ["全部", "社交媒體及廣告投放", "公關", "KOL合作"]
 /* ─── Portfolio ─── */
 function Portfolio() {
   const [ref, inView] = useInView(0.1);
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("全部");
   const [selectedProject, setSelectedProject] = useState(null);
 
   const allProjects = [
@@ -627,7 +695,7 @@ function Portfolio() {
 
   const projects = activeFilter === "全部" ? allProjects : allProjects.filter(p => p.tag === activeFilter);
   return (
-    <section id="work" ref={ref} style={{ padding: "120px 48px", background: WHITE }}>
+    <section id="work" ref={ref} style={{ padding: "120px 48px", background: WHITE, borderTop: `1px solid ${BRAND}33` }}>
       <div style={{ maxWidth: "1160px", margin: "0 auto" }}>
         <p style={{
           fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem", letterSpacing: "0.28em",
@@ -660,8 +728,8 @@ function Portfolio() {
               fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem",
               letterSpacing: "0.14em", textTransform: "uppercase",
               padding: "9px 22px", borderRadius: "40px",
-              border: `1px solid ${activeFilter === f ? CHARCOAL : BRAND}`,
-              background: activeFilter === f ? CHARCOAL : "transparent",
+              border: `1px solid ${activeFilter === f ? GOLD : BRAND}`,
+              background: activeFilter === f ? GOLD : "transparent",
               color: activeFilter === f ? WHITE : "#777",
               cursor: "pointer",
               transition: "all 0.25s ease",
@@ -756,7 +824,7 @@ function Contact() {
                 <label style={{
                   fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem",
                   letterSpacing: "0.18em", textTransform: "uppercase",
-                  color: focused === key ? BRAND : "#666",
+                  color: focused === key ? GOLD : "#666",
                   display: "block", marginBottom: "10px",
                   transition: "color 0.3s",
                 }}>{label}</label>
@@ -768,11 +836,11 @@ function Contact() {
                   onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
                   style={{
                     width: "100%", background: "transparent", border: "none",
-                    borderBottom: `1px solid ${focused === key ? BRAND : "#444"}`,
+                    borderBottom: `1px solid ${focused === key ? GOLD : "#444"}`,
                     padding: "10px 0", color: WHITE, outline: "none",
                     fontFamily: "'DM Sans', sans-serif", fontSize: "1rem",
                     boxSizing: "border-box",
-                    boxShadow: focused === key ? `0 2px 0 0 ${BRAND}66` : "none",
+                    boxShadow: focused === key ? `0 2px 0 0 ${GOLD}88` : "none",
                     transition: "border-color 0.3s, box-shadow 0.3s",
                   }}
                 />
@@ -782,7 +850,7 @@ function Contact() {
               <label style={{
                 fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem",
                 letterSpacing: "0.18em", textTransform: "uppercase",
-                color: focused === "message" ? BRAND : "#666",
+                color: focused === "message" ? GOLD : "#666",
                 display: "block", marginBottom: "10px",
                 transition: "color 0.3s",
               }}>Message (optional)</label>
@@ -794,11 +862,11 @@ function Contact() {
                 onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                 style={{
                   width: "100%", background: "transparent", border: "none",
-                  borderBottom: `1px solid ${focused === "message" ? BRAND : "#444"}`,
+                  borderBottom: `1px solid ${focused === "message" ? GOLD : "#444"}`,
                   padding: "10px 0", color: WHITE, outline: "none", resize: "none",
                   fontFamily: "'DM Sans', sans-serif", fontSize: "1rem",
                   boxSizing: "border-box",
-                  boxShadow: focused === "message" ? `0 2px 0 0 ${BRAND}66` : "none",
+                  boxShadow: focused === "message" ? `0 2px 0 0 ${GOLD}88` : "none",
                   transition: "border-color 0.3s, box-shadow 0.3s",
                 }}
               />
@@ -811,15 +879,16 @@ function Contact() {
               >
                 <style>{`
                   .btn-book {
-                    background: ${BRAND}; color: ${CHARCOAL};
+                    background: ${GOLD}; color: ${WHITE};
                     border: none; padding: 18px 52px;
                     font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
                     letter-spacing: 0.18em; text-transform: uppercase;
                     cursor: pointer; border-radius: 2px;
                     font-weight: 600;
-                    box-shadow: 0 0 40px ${BRAND}44;
+                    box-shadow: 0 0 40px ${GOLD}44;
+                    transition: background 0.25s ease, box-shadow 0.25s ease;
                   }
-                  .btn-book:hover { background: #d8dbd4; box-shadow: 0 0 60px ${BRAND}66; }
+                  .btn-book:hover { background: #b8845a; box-shadow: 0 0 60px ${GOLD}66; }
                 `}</style>
                 Book a Consultation
               </MagneticBtn>
