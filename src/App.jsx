@@ -332,111 +332,8 @@ function About() {
   );
 }
 
-/* ─── PR Process ─── */
-function PRProcess() {
-  const [ref, inView] = useInView(0.1);
-  const steps = [
-    { num: "01", title: "深度品牌研究", desc: "了解品牌定位、目標受眾及媒體環境" },
-    { num: "02", title: "制定公關策略", desc: "撰寫新聞基調、媒體名單及傳播計劃" },
-    { num: "03", title: "執行與媒體推廣", desc: "發送新聞稿、安排媒體邀請及跟進報道" },
-    { num: "04", title: "數據分析與報告", desc: "統計媒體曝光、評估成效並優化策略" },
-  ];
-
-  return (
-    <section ref={ref} style={{
-      padding: "100px 48px",
-      background: WHITE,
-      borderTop: `1px solid ${BRAND}44`,
-    }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        <p style={{
-          fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem", letterSpacing: "0.28em",
-          textTransform: "uppercase", color: BRAND, marginBottom: "16px",
-          opacity: inView ? 1 : 0, transition: "opacity 0.7s ease",
-        }}>The Process</p>
-        <h2 style={{
-          fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
-          fontSize: "clamp(1.8rem, 3vw, 2.6rem)", color: CHARCOAL,
-          margin: "0 0 64px", lineHeight: 1.15,
-          opacity: inView ? 1 : 0, transform: inView ? "none" : "translateY(20px)",
-          transition: "all 0.9s cubic-bezier(0.16,1,0.3,1) 0.1s",
-        }}>
-          公關執行流程
-        </h2>
-
-        {/* Timeline */}
-        <div style={{ position: "relative" }}>
-          {/* Connector line */}
-          <div style={{
-            position: "absolute",
-            top: "28px",
-            left: "calc(12.5% - 1px)",
-            right: "calc(12.5% - 1px)",
-            height: "2px",
-            background: `${BRAND}55`,
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-          }} />
-
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "32px",
-            position: "relative",
-          }}>
-            {steps.map(({ num, title, desc }, i) => (
-              <div key={num} style={{
-                textAlign: "center",
-                opacity: inView ? 1 : 0,
-                transform: inView ? "none" : "translateY(28px)",
-                transition: `all 0.8s cubic-bezier(0.16,1,0.3,1) ${0.15 + i * 0.12}s`,
-              }}>
-                {/* Step circle */}
-                <div style={{
-                  width: "56px", height: "56px", borderRadius: "50%",
-                  background: WHITE, border: `2px solid ${BRAND}`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  margin: "0 auto 24px",
-                  fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
-                  fontSize: "1rem", color: CHARCOAL,
-                  position: "relative", zIndex: 1,
-                  boxShadow: `0 0 0 6px ${WHITE}`,
-                }}>{num}</div>
-
-                <h3 style={{
-                  fontFamily: "'Cormorant Garamond', serif", fontWeight: 700,
-                  fontSize: "1.15rem", color: CHARCOAL,
-                  margin: "0 0 12px", lineHeight: 1.25,
-                }}>{title}</h3>
-
-                <p style={{
-                  fontFamily: "'DM Sans', sans-serif", fontSize: "0.88rem",
-                  color: "#777", lineHeight: 1.65, margin: 0,
-                }}>{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ─── Project image map ─── */
-const PROJECT_IMAGES = {
-  "LKS Foundation · Histotripsy 2.0": "/slides/lks_foundation.jpg",
-  "LKS Foundation · KOL Matrix": "/slides/lks_foundation.jpg",
-  "Wing Lok Noodle — Pop-up Launch": "/slides/wing_lok_1.jpg",
-  "Wing Lok Noodle — Social Media": "/slides/wing_lok_2.jpg",
-  "Master Ngan": "/slides/master_ngan.jpg",
-  "Mittoappu — Kuala Lumpur TRX": "/slides/mittoappu.jpg",
-  "Caligari Curry — Sha Tin Opening": "/slides/caligari_two_sisters.jpg",
-  "Caligari Curry — Social Media": "/slides/caligari_two_sisters.jpg",
-  "Two Sisters Cold Skin Noodles": "/slides/caligari_two_sisters.jpg",
-  "Nagamoto — Central Omakase": "/slides/nagamoto_jc_levelmind.jpg",
-  "JC LevelMind — Youth Mental Health": "/slides/nagamoto_jc_levelmind.jpg",
-  "JC LevelMind — PR Campaign": "/slides/nagamoto_jc_levelmind.jpg",
-};
+const PROJECT_IMAGES = {};
 
 /* ─── Project Modal ─── */
 function ProjectModal({ project, onClose }) {
@@ -622,7 +519,7 @@ function PortfolioCard({ project, delay, inView, onClick }) {
             letterSpacing: "0.16em", textTransform: "uppercase",
             color: CHARCOAL, borderBottom: `1px solid ${CHARCOAL}`,
             paddingBottom: "2px",
-          }}>View Case Study</span>
+          }}>查看詳情</span>
           <span style={{ fontSize: "0.85rem" }}>→</span>
         </div>
       </div>
@@ -631,7 +528,7 @@ function PortfolioCard({ project, delay, inView, onClick }) {
 }
 
 /* ─── Portfolio filter tabs ─── */
-const FILTERS = ["All", "Social Media & Ad Placement", "PR", "KOL Engagement"];
+const FILTERS = ["全部", "社交媒體及廣告投放", "公關", "KOL合作"];
 
 /* ─── Portfolio ─── */
 function Portfolio() {
@@ -640,116 +537,95 @@ function Portfolio() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   const allProjects = [
-    // PR & Mainland China
     {
-      title: "LKS Foundation · Histotripsy 2.0",
-      desc: "Full-media PR campaign for Asia's first non-invasive liver cancer tissue ablation system, donated to CUHK. Covered by 22 mainstream outlets, viral seeding via drama tie-in, 80% search volume indexed on Baidu.",
-      tag: "PR",
-      metric: "3.53M+ Impressions · 4.23M+ KOL Reach",
+      title: "醫療科技行業",
+      desc: "為亞洲首創醫療技術的捐贈項目提供全方位公關推廣，涵蓋新聞基調設定、媒體發稿及社媒病毒式傳播策略。",
+      tag: "公關",
+      metric: "總曝光量 353萬+ · KOL觸及 423萬+",
+    },
+    {
+      title: "餐飲業 / 日式咖喱",
+      desc: "為日本著名咖喱品牌香港分店開幕策劃媒體活動，安排記者獨家試食，成功打入本地美食媒體版圖。",
+      tag: "公關",
+      metric: "媒體關係",
+    },
+    {
+      title: "慈善及企業社會責任",
+      desc: "統籌知名企業慈善計劃啟動儀式，涵蓋高管出席、媒體機會及顧客互動，獲逾30個廣播及印刷媒體報道。",
+      tag: "公關",
+      metric: "30+ 媒體報道",
+    },
+    {
+      title: "非牟利機構 / 青少年精神健康",
+      desc: "為青少年精神健康計劃提供公關傳播策略，建立正面無標籤品牌形象，整合社區、學校及網上渠道傳播。",
+      tag: "公關",
+      metric: "NGO · 公關策略",
+    },
+    {
+      title: "餐飲業 / 本地麵食品牌",
+      desc: "全面管理品牌社交媒體及廣告投放，涵蓋內容創作、KOL合作及節慶推廣，廣告回報率大幅超越行業基準。",
+      tag: "社交媒體及廣告投放",
+      metric: "廣告回報率最高達137倍 · 合作KOL 200+",
       wide: true,
     },
     {
-      title: "Wing Lok Noodle — Pop-up Launch",
-      desc: "Planned a media tour, drafted press releases and coordinated journalist tastings for Wing Lok Noodle's department store pop-up, securing 15+ local lifestyle media features and significantly raising brand awareness.",
-      tag: "PR",
-      metric: "15+ Media Features",
+      title: "餐飲業 / 日式和牛料理（馬來西亞）",
+      desc: "為馬來西亞頂級日式餐廳管理雙語社交媒體及廣告投放，半天內獲40+查詢，每個潛在客戶成本低至$9。",
+      tag: "社交媒體及廣告投放",
+      metric: "觸及 24.4萬 · 每個潛客成本 $9",
     },
     {
-      title: "Caligari Curry — Sha Tin Opening",
-      desc: "Media event strategy for the second Hong Kong outlet of Japanese curry destination Caligari, including exclusive journalist tastings that placed the brand firmly on the city's food-media map.",
-      tag: "PR",
-      metric: "Media Relations",
+      title: "餐飲業 / 日式甜品咖啡廳",
+      desc: "為購物中心內日式甜品咖啡廳管理雙語社交媒體及廣告，跨平台覆蓋IG、FB及小紅書，配合KOL合作推廣。",
+      tag: "社交媒體及廣告投放",
+      metric: "多平台 · KOL合作",
     },
-    // Social Media
     {
-      title: "Wing Lok Noodle — Social Media",
-      desc: "Full social media management since April 2023: paid ads, creative design, content production, community management and 200+ KOL/MI collaborations. Festive campaigns achieved a peak ROAS of 44.33× (industry benchmark: 8×), with an overall average ROAS of 137.18×.",
-      tag: "Social Media & Ad Placement",
-      metric: "Peak ROAS 137× · 200+ KOL Collabs",
+      title: "餐飲業 / 港式小食",
+      desc: "全面管理品牌社交媒體及廣告策略，涵蓋廣告規劃、宣傳物資設計及超過100位KOL/MI合作，提升品牌曝光。",
+      tag: "社交媒體及廣告投放",
+      metric: "合作 KOL/MI 100+",
+    },
+    {
+      title: "健康食品行業",
+      desc: "為健康食品品牌建立社交媒體形象，6個月內Instagram粉絲增長近千，配合KOL合作及產品攝影全面提升品牌形象。",
+      tag: "社交媒體及廣告投放",
+      metric: "6個月粉絲增長近1,000",
+    },
+    {
+      title: "教育行業",
+      desc: "為補習中心從零建立專業社交媒體形象，透過精準Facebook廣告推動學員查詢及報名。",
+      tag: "社交媒體及廣告投放",
+      metric: "潛在客戶開發",
+    },
+    {
+      title: "非牟利機構 / 青少年精神健康",
+      desc: "為青少年精神健康計劃管理社交媒體內容及電郵行銷，整合社區、學校及網上渠道，觸及不同年齡層受眾。",
+      tag: "社交媒體及廣告投放",
+      metric: "NGO · 社媒管理",
+    },
+    {
+      title: "餐飲業 / 本地茶飲品牌",
+      desc: "在小紅書平台啟動50+ KOL以視頻及圖文格式推廣，配合百貨公司促銷活動直接推動門店銷售。",
+      tag: "KOL合作",
+      metric: "50+ KOLs · 小紅書",
+    },
+    {
+      title: "活動 / 年度咖啡節",
+      desc: "連續5屆咖啡節KOC推廣，協助多個咖啡品牌在小紅書形成自發打卡效應，總流量突破10萬，互動數逾2萬。",
+      tag: "KOL合作",
+      metric: "10萬+ 流量 · 2萬+ 互動",
       wide: true,
     },
     {
-      title: "Mittoappu — Kuala Lumpur TRX",
-      desc: "Bilingual social media management, paid advertising and KOL partnerships (including KL Foodie with 1.3M followers) for Malaysia's first Wakayama wagyu Japanese restaurant. Generated 40+ enquiries within half a day at a cost-per-lead as low as $9.",
-      tag: "Social Media & Ad Placement",
-      metric: "244K Views · $9 Cost-per-Lead",
-    },
-    {
-      title: "Boucake — Kuala Lumpur TRX",
-      desc: "Bilingual social media management and paid advertising for a modern Japanese dessert café at TRX, with cross-platform KOL collaborations spanning Instagram, Facebook and Xiaohongshu.",
-      tag: "Social Media & Ad Placement",
-      metric: "Multi-platform · KOL Collabs",
-    },
-    {
-      title: "Master Ngan",
-      desc: "Full social media management and new-product launches: campaign planning and ad placement, promotional material design, KOL partnerships, WhatsApp and email marketing (including chatbot setup), with over 100 KOL/MI collaborations.",
-      tag: "Social Media & Ad Placement",
-      metric: "100+ KOL/MI",
-    },
-    {
-      title: "Magic Me Time",
-      desc: "Social media management and advertising strategy for a bird's nest health-food brand. Grew Instagram followers to nearly 1,000 in under six months, encompassing KOL partnerships, product photography and brand PR.",
-      tag: "Social Media & Ad Placement",
-      metric: "~1K Followers in 6 Months",
-    },
-    {
-      title: "Two Sisters Cold Skin Noodles",
-      desc: "Social media management for a Sichuan-style snack shop that has earned the Michelin Bib Gourmand three consecutive years, leveraging the signature cold skin noodles to attract both locals and tourists and build brand reputation.",
-      tag: "Social Media & Ad Placement",
-      metric: "Michelin Bib Gourmand",
-    },
-    {
-      title: "Nagamoto — Central Omakase",
-      desc: "Social media management for the Hong Kong Central omakase restaurant opened by former Osaka Michelin three-star kaiseki chef Teruhiko Nagamoto, building a premium Japanese brand identity around the concept of seasonal cuisine.",
-      tag: "Social Media & Ad Placement",
-      metric: "Fine Dining · Michelin-Starred Chef",
-    },
-    {
-      title: "Caligari Curry — Social Media",
-      desc: "Ongoing social media management for Caligari Curry's Hong Kong outlets, with coconut curry and Premium Spice Curry as content pillars to craft the brand's distinctive tone of voice.",
-      tag: "Social Media & Ad Placement",
-      metric: "Japanese Brand · HK Outlets",
-    },
-    {
-      title: "Smartist Learning Centre",
-      desc: "Built the social media presence from scratch for a Mong Kok English tutoring centre, establishing a professional brand through English-learning content and driving enquiries and enrolments via Facebook advertising.",
-      tag: "Social Media & Ad Placement",
-      metric: "Lead Generation",
-    },
-    {
-      title: "Gui Tea — Xiaohongshu KOL Campaign",
-      desc: "Activated 50+ KOLs on Xiaohongshu in video and graphic formats for a premium tea brand, timed to coincide with a Hong Kong department store promotion and directly driving in-store sales.",
-      tag: "KOL Engagement",
-      metric: "50+ KOLs · Xiaohongshu",
-    },
-    {
-      title: "Coffee Festival — KOC Campaign",
-      desc: "KOC activations across five consecutive Coffee Festival editions, coordinating multiple KOC/KOL check-in posts for leading coffee brands on Xiaohongshu, generating an organic check-in effect with 100K+ total reach and 20K+ engagements.",
-      tag: "KOL Engagement",
-      metric: "100K+ Reach · 20K+ Engagements",
-      wide: true,
-    },
-    {
-      title: "LKS Foundation · KOL Matrix",
-      desc: "A KOL network spanning healthcare, technology and lifestyle verticals, reaching 4.23M+ people in support of the Histotripsy 2.0 project and generating 5,755 high-quality engagements (likes, comments, saves and shares).",
-      tag: "KOL Engagement",
-      metric: "4.23M+ KOL Reach · 5,755 Engagements",
-    },
-    {
-      title: "JC LevelMind — Youth Mental Health",
-      desc: "Social media content and email marketing for the Jockey Club's destigmatisation programme for youth mental health, reaching diverse age groups through an integrated community, school and online approach alongside a PR communications strategy.",
-      tag: "Social Media & Ad Placement",
-      metric: "NGO · Social Media + PR",
-    },
-    {
-      title: "JC LevelMind — PR Campaign",
-      desc: "PR communications strategy for the Jockey Club's youth mental health programme, raising public awareness and building a positive, label-free brand image through an integrated community, school and digital outreach plan.",
-      tag: "PR",
-      metric: "NGO · PR Strategy",
+      title: "醫療科技行業",
+      desc: "整合醫療、科技及生活風格KOL矩陣，配合公關項目觸達423萬+人次，帶動5,755次高質素互動。",
+      tag: "KOL合作",
+      metric: "KOL觸及 423萬+ · 互動 5,755次",
     },
   ];
 
-  const projects = activeFilter === "All" ? allProjects : allProjects.filter(p => p.tag === activeFilter);
+  const projects = activeFilter === "全部" ? allProjects : allProjects.filter(p => p.tag === activeFilter);
   return (
     <section id="work" ref={ref} style={{ padding: "120px 48px", background: WHITE }}>
       <div style={{ maxWidth: "1160px", margin: "0 auto" }}>
@@ -757,7 +633,7 @@ function Portfolio() {
           fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem", letterSpacing: "0.28em",
           textTransform: "uppercase", color: BRAND, marginBottom: "16px",
           opacity: inView ? 1 : 0, transition: "opacity 0.7s ease",
-        }}>The Work</p>
+        }}>精選作品</p>
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px", flexWrap: "wrap", gap: "16px" }}>
           <h2 style={{
@@ -770,10 +646,10 @@ function Portfolio() {
           </h2>
           <p style={{
             fontFamily: "'DM Sans', sans-serif", fontSize: "0.88rem", color: "#888",
-            maxWidth: "280px", lineHeight: 1.6, textAlign: "right",
+            maxWidth: "320px", lineHeight: 1.6, textAlign: "right",
             opacity: inView ? 1 : 0, transition: "opacity 0.9s ease 0.2s",
           }}>
-            Campaigns spanning PR, media relations, KOL strategy and social media across Hong Kong, Mainland China & Southeast Asia.
+            涵蓋公關、社交媒體、KOL策略及活動策劃，橫跨香港、內地及東南亞市場。
           </p>
         </div>
 
@@ -1015,7 +891,6 @@ export default function TotoroStudio() {
       <Nav scrollY={scrollY} />
       <Hero scrollY={scrollY} />
       <About />
-      <PRProcess />
       <Portfolio />
       <Contact />
     </div>
